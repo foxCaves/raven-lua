@@ -377,12 +377,27 @@ end
 -- end
 -- return rvn:call(func, 1, 'foo', true)
 function raven_mt:call(f, ...)
+    return self:call_ext(nil, f, ...)
+end
+
+--- Call given function and report any errors to Sentry with conf overrides.
+-- @function Raven:call_ext
+-- @param conf   Conf overrides
+-- @param f     function to be called
+-- @param ...   function's arguments
+-- @return      the same as @{xpcall}
+-- @usage
+-- function func(a, b, c)
+--     return a * b + c
+-- end
+-- return rvn:call_ext({}, func, 1, 'foo', true)
+function raven_mt:call_ext(conf, f, ...)
     -- When used with ngx_lua, connecting a tcp socket in xpcall error handler
     -- will cause a "yield across C-call boundary" error. To avoid this, we
     -- move all the network operations outside of the xpcall error handler.
     local res = { xpcall(f, capture_error_handler, ...) }
     if not res[1] then
-        self:send_report(res[2])
+        self:send_report(res[2], conf)
         res[2] = res[2].message -- turn the error object back to its initial form
     end
 
