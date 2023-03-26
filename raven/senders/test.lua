@@ -5,7 +5,9 @@
 -- @copyright 2014-2017 CloudFlare, Inc.
 -- @license BSD 3-clause (see LICENSE file)
 local cjson = require 'cjson'
+local table = table
 
+setfenv(1, {})
 
 local function new()
     return {

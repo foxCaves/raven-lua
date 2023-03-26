@@ -13,6 +13,11 @@ local string_sub = string.sub
 local string_match = string.match
 local math_random = math.random
 local os_date = os.date
+local tonumber = tonumber
+local assert = assert
+local type = type
+
+setfenv(1, {})
 
 local _M = {}
 

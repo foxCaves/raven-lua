@@ -11,8 +11,16 @@ local util = require 'raven.util'
 local cjson = require 'cjson'
 
 local _M = {}
+
 _M._VERSION = util._VERSION
 
+local unpack = unpack
+local xpcall = xpcall
+local assert = assert
+local pcall = pcall
+local pairs = pairs
+local tostring = tostring
+local setmetatable = setmetatable
 local debug_getinfo = debug.getinfo
 local table_insert = table.insert
 local unpack = unpack or table.unpack -- luacheck: ignore
@@ -21,6 +29,8 @@ local iso8601 = util.iso8601
 local json_encode = cjson.encode
 
 local catcher_trace_level = 4
+
+setfenv(1, {})
 
 --- Table describing main Sentry client settings.
 -- @field sender Object used to send message, see `rave.senders.*` modules to
@@ -31,7 +41,6 @@ local catcher_trace_level = 4
 --  `{ "foo"="bar", ... }`
 -- @field extra  Default extra data sent with messages, defaults to `{}`
 -- @table sentry_conf
-
 local raven_mt = { }
 raven_mt.__index = raven_mt
 

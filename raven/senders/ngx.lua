@@ -27,6 +27,8 @@ local generate_auth_header = util.generate_auth_header
 local _VERSION = util._VERSION
 local _M = {}
 
+setfenv(1, {})
+
 -- provide a more sensible implementation of the error log function
 function util.errlog(...)
     ngx.log(ngx.ERR, 'raven-lua failure: ', ...)

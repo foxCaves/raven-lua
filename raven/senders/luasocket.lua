@@ -20,12 +20,15 @@ local assert = assert
 local pairs = pairs
 local setmetatable = setmetatable
 local table_concat = table.concat
+local tostring = tostring
 local source_string = ltn12.source.string
 local table_sink = ltn12.sink.table
 local parse_dsn = util.parse_dsn
 local generate_auth_header = util.generate_auth_header
 local _VERSION = util._VERSION
 local _M = {}
+
+setfenv(1, {})
 
 local mt = {}
 mt.__index = mt
