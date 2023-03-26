@@ -18,21 +18,16 @@
 
 local util = require 'raven.util'
 
+local ngx = ngx
+local debug = debug
+local xpcall = xpcall
+local setmetatable = setmetatable
 local ngx_socket = ngx.socket
 local ngx_get_phase = ngx.get_phase
 local string_format = string.format
 local table_remove = table.remove
 local parse_dsn = util.parse_dsn
 local generate_auth_header = util.generate_auth_header
-local _VERSION = util._VERSION
-local _M = {}
-
-setfenv(1, {})
-
--- provide a more sensible implementation of the error log function
-function util.errlog(...)
-    ngx.log(ngx.ERR, 'raven-lua failure: ', ...)
-end
 
 -- as we don't want to use an external HTTP library, just send the HTTP request
 -- directly using cosocket API
@@ -46,6 +41,16 @@ X-Sentry-Auth: %s
 
 %s
 ]], '\r?\n', '\r\n')
+
+local _VERSION = util._VERSION
+local _M = {}
+
+setfenv(1, {})
+
+-- provide a more sensible implementation of the error log function
+function util.errlog(...)
+    ngx.log(ngx.ERR, 'raven-lua failure: ', ...)
+end
 
 local CALLBACK_DEFAULT_ERRMSG =
     "failed to configure socket (custom callback did not returned a value)"
