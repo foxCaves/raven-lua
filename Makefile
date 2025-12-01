@@ -2,7 +2,8 @@
 #
 # Copyright (c) 2014-2017 CloudFlare, Inc.
 
-all: test
+all:
+	@echo Nothing
 
 .PHONY: lint
 lint:
